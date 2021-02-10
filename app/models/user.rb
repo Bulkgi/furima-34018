@@ -4,11 +4,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  validates :password,         format:{ with: /[a-z\d]/i, message: 'パスワードは6文字以上の半角英数字にしてください'}
   validates :nickname,         presence: true
-  validates :first_name,       presence: true
-  validates :last_name,        presence: true
-  validates :first_name_ruby,  presence: true
-  validates :last_name_ruby,   presence: true
+  with_option presence: true, format:{  with: /\A[ぁ-んァ-ヶ一-龥々]+\z/, message: '全角文字を使用してください' } do
+    validates :first_name       
+    validates :last_name
+    validates :first_name_ruby 
+    validates :last_name_ruby
+  end
   validates :birthday,         presence: true
          
 end
