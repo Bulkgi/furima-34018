@@ -19,18 +19,31 @@ RSpec.describe User, type: :model do
       expect(@user).to be_valid
     end
 
-    it 'first_name, last_name, first_name_ruby, last_name_ruby, が全角なら登録できる' do
+    it 'first_name が全角なら登録できる' do
       @user.first_name = 'ああああああ'
       @user.last_name = 'ああああああ'
       expect(@user).to be_valid
     end
     
-    it 'first_name_ruby, last_name_ruby, が全角カナ文字なら登録できる'do
+    it ' last_name が全角なら登録できる' do
+      @user.first_name = 'ああああああ'
+      @user.last_name = 'ああああああ'
+      expect(@user).to be_valid
+    end
+
+    
+
+    it 'first_name_rubyが全角カナ文字なら登録できる'do
       @user.first_name_ruby = 'アアア'
       @user.last_name_ruby = 'アアアア'
       expect(@user).to be_valid  
     end
     
+    it ' last_name_ruby, が全角カナ文字なら登録できる'do
+      @user.first_name_ruby = 'アアア'
+      @user.last_name_ruby = 'アアアア'
+      expect(@user).to be_valid  
+    end
 
     it 'nicknameが空だと登録できない'do
       @user.nickname = ''
