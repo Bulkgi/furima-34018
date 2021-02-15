@@ -47,10 +47,22 @@ RSpec.describe Item, type: :model do
         expect( @item.errors.full_messages).to include("Product can't be blank")
       end
 
+      it 'productが半角英数混合では出品できないこと' do
+        @item.product = 'aaaa'
+        @item.valid?
+        expect( @item.errors.full_messages).to include("Product 全角文字を使用してください")
+      end
+
       it 'descriptionが空の時' do
         @item.description = ''
         @item.valid?
         expect( @item.errors.full_messages).to include("Description can't be blank")
+      end
+
+      it 'descriptionが半角英数混合では出品できないこと' do
+        @item.description = 'aaaa'
+        @item.valid?
+        expect( @item.errors.full_messages).to include("Description 全角文字を使用してください")
       end
 
       it 'priceが空の時' do
@@ -58,6 +70,27 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect( @item.errors.full_messages).to include("Price can't be blank")
       end
+
+      it 'priceの値が10000000円以上では出品できない' do
+        @item.price = 10000000
+        @item.valid?
+        expect( @item.errors.full_messages).to include("Price must be less than or equal to 9999999")
+      end
+
+
+      it 'priceが半角英語だけでは出品できないこと' do
+        @item.price = 'aaaa'
+        @item.valid?
+        expect( @item.errors.full_messages).to include("Price is not a number")
+      end
+
+      it 'priceが全角文字では出品できないこ' do
+        @item.price = 'あああああ'
+        @item.valid?
+        expect( @item.errors.full_messages).to include("Price is not a number")
+      end
+
+      
 
       it 'imageが空の時' do
         @item.image = nil

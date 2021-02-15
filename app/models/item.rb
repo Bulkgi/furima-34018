@@ -11,12 +11,16 @@ class Item < ApplicationRecord
 
 
   with_options presence: true do
-    validates :product
-    validates :description
-    validates :price
-      with_options numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to:9999999 } do
-        validates :price
-      end
+    with_options format:{ with: /\A[ぁ-んァ-ヶ一-龥々]+\z/, message: '全角文字を使用してください' } do
+      validates :product
+      validates :description
+    end
+    with_options format:{ with: /\A[0-9]+\z/, message: '半角数字を使用してください' } do
+      validates :price
+    end
+    with_options numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to:9999999 } do
+      validates :price
+    end
     validates :image
   end
 
