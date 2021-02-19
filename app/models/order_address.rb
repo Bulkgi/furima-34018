@@ -4,10 +4,9 @@ class OrderAddress
 
   # ここにバリデーションの処理を書く
   with_options presence:true do
-    with_options format:{ with: /\A[0-9]+\z/, message: '半角数字を使用してください'} do  
-      validates :postal_code 
-      validates :phone
-    end
+
+    validates :postal_code, format:{ with: /\A\d{3}[-]\d{4}\z/ }
+    validates :phone, format:{ with: /\A[0-9]{,11}\z/}
 
     with_options numericality: { other_than: 1 } do
       validates :area_id
