@@ -71,6 +71,11 @@ RSpec.describe OrderAddress, type: :model do
           expect( @orderaddress.errors.full_messages).to include("Phone is invalid")
         end
 
+        it 'phoneが数字のみでないと購入できないこと' do
+          @orderaddress.phone = '1111111あ'
+          @orderaddress.valid? 
+          expect( @orderaddress.errors.full_messages).to include("Phone is invalid")
+        end
 
 
         it 'area_idが1の時' do
@@ -89,6 +94,18 @@ RSpec.describe OrderAddress, type: :model do
           @orderaddress.address = ''
           @orderaddress.valid?
           expect( @orderaddress.errors.full_messages).to include("Address can't be blank")
+        end
+
+        it 'user_idがなければ投稿できない' do
+          @orderaddress.user_id = nil
+          @orderaddress.valid?
+          expect(@orderaddress.errors.full_messages).to include("User can't be blank")
+        end
+
+        it 'item_idがなければ投稿できない' do
+          @orderaddress.item_id = nil
+          @orderaddress.valid?
+          expect(@orderaddress.errors.full_messages).to include("Item can't be blank")
         end
 
       end
