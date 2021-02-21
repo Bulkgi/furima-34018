@@ -4,25 +4,20 @@ RSpec.describe OrderAddress, type: :model do
 
     describe '商品購入機能' do
       before do
-        @oeraddress = FactoryBot.build(:item)
+        @user = FactoryBot.create(:user)
+        @item = FactoryBot.create(:item)
+        @orderaddress = FactoryBot.build(:order_address, user_id:@user.id, item_id:@item.id)
+        sleep 0.1
       end
   
       context '商品が購入できるとき' do
-        it 'クレジットカード情報が入っていれば登録できる' do
-          
-        end
   
-        it 'postal_code, phone ,area_id,municipality, address が入っている '
+        it 'postal_code, phone ,area_id,municipality, address, token が入っている ' do
           expect(@orderaddress).to be_valid
         end
   
         it 'area_idの値が1以外の時' do
-          @orderaddress.area_id != '1'
-          expect(@orderaddress).to be_valid
-        end
-  
-        it 'delivery_fee_burden_idが1以外の時' do
-          @orderaddress.delivery_fee_burden_id != '1'
+          @orderaddress.area_id != 1
           expect(@orderaddress).to be_valid
         end
   
@@ -39,14 +34,17 @@ RSpec.describe OrderAddress, type: :model do
       end
 
       context '商品が購入できない時' do
-        it 'クレジットカードの情報が空の時 ' do
+        it 'tokenが空の時 ' do
+          @orderaddress.token = ''
+          @orderaddress.valid?
+          expect( @orderaddress.errors.full_messages).to include("Token can't be blank")
         end
 
 
         it 'postal_codeが空の時' do
           @orderaddress.postal_code = ''
           @orderaddress.valid?
-          expect( @orderaddress.errors.full_messages).to include("Postal_code can't be blank")
+          expect( @orderaddress.errors.full_messages).to include("Postal code can't be blank")
         end
 
         it 'postal_codeにハイフンがないの時' do
@@ -64,13 +62,13 @@ RSpec.describe OrderAddress, type: :model do
         it 'phoneが全角の時' do
           @orderaddress.phone = 'あああああああ'
           @orderaddress.valid?
-          expect( @orderaddress.errors.full_messages).to include("Phone is not a number")
+          expect( @orderaddress.errors.full_messages).to include("Phone is invalid")
         end
 
         it 'phoneが12文字以上の時' do
-          @orderaddress.phone = 1111111111111111
+          @orderaddress.phone = '1111111111111111'
           @orderaddress.valid?
-          expect( @orderaddress.errors.full_messages).to include("Phone is not a number")
+          expect( @orderaddress.errors.full_messages).to include("Phone is invalid")
         end
 
 
