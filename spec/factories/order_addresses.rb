@@ -7,7 +7,6 @@ FactoryBot.define do
     address      {"横浜市港区"}
     building     {"ホームルーム武田123"}
     token        {"tok_abcdefghijk00000000000000000"}
-    association :user
-    association :item
+  
   end
 end
