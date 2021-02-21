@@ -16,18 +16,9 @@ RSpec.describe OrderAddress, type: :model do
           expect(@orderaddress).to be_valid
         end
   
-        it 'area_idの値が1以外の時' do
-          @orderaddress.area_id != 1
-          expect(@orderaddress).to be_valid
-        end
-  
-        it 'phone の値が11桁以内の時' do
-          @orderaddress.phone = '111111111'
-          expect(@orderaddress).to be_valid
-        end
-  
-        it 'postal_codeにはハイフンが必要なこと' do
-          @orderaddress.postal_code = '123-4577'
+
+        it '建物名が空でも登録できること' do
+          @orderaddress.building = ''
           expect(@orderaddress).to be_valid
         end
   
