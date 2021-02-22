@@ -12,10 +12,7 @@ class Item < ApplicationRecord
 
 
   with_options presence: true do
-    with_options format:{ with: /\A[ぁ-んァ-ヶ一-龥々]+\z/, message: '全角文字を使用してください' } do
-      validates :product
-      validates :description
-    end
+      
     with_options format:{ with: /\A[0-9]+\z/, message: '半角数字を使用してください' } do
       validates :price
     end
@@ -23,6 +20,8 @@ class Item < ApplicationRecord
       validates :price
     end
     validates :image
+    validates :product
+    validates :description
   end
 
   with_options numericality: { other_than: 1 } do
